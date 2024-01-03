@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import  { toast } from 'react-hot-toast';
 import { RotatingTriangles } from 'react-loader-spinner'
 import { fetchImg } from '../Api';
@@ -24,8 +24,16 @@ export const App = () => {
   const [loading, setLoading] = useState(false);
   const [loadingMoreImages, setLoadingMoreImages] = useState(false);
 
+  const controllerRef = useRef();
+
   useEffect(() => {
+
     async function loadingResults() {
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+      }
+
+      controllerRef.current = new AbortController();
       try {
         setLoading(true);
         setLoadingMoreImages(true);
@@ -34,7 +42,7 @@ export const App = () => {
           return;
         };
 
-        const initialQuizzes = await fetchImg(query, pages);
+        const initialQuizzes = await fetchImg(query, pages, controllerRef);
   
         if (initialQuizzes.length) {
           setImages(prevImages => pages > 1 ? [...prevImages, ...initialQuizzes ] : initialQuizzes)
@@ -42,8 +50,11 @@ export const App = () => {
           toast.error(`Sorry, but we didn't found any image!`);
         }
   
-      } catch{
-        setError(true);
+      } catch(e){
+        if (e.code !== "ERR_CANCELED") {
+          setError(true);
+          console.log(e); 
+        }
       }
       finally {
         setLoading(false);
@@ -52,6 +63,11 @@ export const App = () => {
     }
 
     loadingResults()
+
+    return () => {
+      controllerRef.current.abort();
+    }
+
   }, [query, pages]);
 
   const searchImages = newQuery => {

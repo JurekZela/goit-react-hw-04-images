@@ -23,6 +23,7 @@ export const App = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingMoreImages, setLoadingMoreImages] = useState(false);
+  const [totalHits, setTotalHits] = useState(0);
 
   const controllerRef = useRef();
 
@@ -43,12 +44,11 @@ export const App = () => {
         };
 
         const initialQuizzes = await fetchImg(query, pages, controllerRef);
-  
-        if (initialQuizzes.length) {
-          setImages(prevImages => pages > 1 ? [...prevImages, ...initialQuizzes ] : initialQuizzes)
-        } else {
-          toast.error(`Sorry, but we didn't found any image!`);
-        }
+        setTotalHits(initialQuizzes.totalHits);
+
+        initialQuizzes.hits.length ? 
+        setImages(prevImages => pages >= 1 ? [...prevImages, ...initialQuizzes.hits ] : [...initialQuizzes.hits])
+        : toast.error(`Sorry, but we didn't found any image!`);
   
       } catch(e){
         if (e.code !== "ERR_CANCELED") {
@@ -83,11 +83,7 @@ export const App = () => {
 
     const value = e.target.elements[1].value.trim()
 
-    if (!value) {
-      return toast.error('Not a Value!');
-    };
-    
-    searchImages(value);
+    !value ? toast.error('Not a Value!') : searchImages(value);
 
     e.target.reset();
   };
@@ -103,7 +99,7 @@ export const App = () => {
      images.length > 0 && 
      <>
      <ImageGallery images={images}/>
-     <Button loader={loadingMoreImages} onClick={onClickLoadMore}/>
+     {pages < totalHits && <Button loader={loadingMoreImages} onClick={onClickLoadMore}/>}
      </>
      }
     </Wrapper>

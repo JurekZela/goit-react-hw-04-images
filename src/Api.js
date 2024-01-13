@@ -17,5 +17,5 @@ export async function fetchImg (searchQuery, pages, controllerRef) {
         orientation: 'horizontal',
         per_page: 12,
      }});
-    return response.data.hits;
+    return response.data;
 };

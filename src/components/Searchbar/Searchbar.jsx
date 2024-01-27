@@ -1,5 +1,4 @@
 import { Formik } from 'formik';
-// import { ReactComponent as SearchIcon } from '../images/search.svg';
 import { FiSearch } from "react-icons/fi";
 import { Header, FormStyles as Form, Button, Input } from './Searchbar-styled';
 

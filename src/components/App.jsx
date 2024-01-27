@@ -16,7 +16,7 @@ wrapperStyle={{}}
 wrapperClass="rotating-triangels-wrapper"
 />
 
-export const App = () => {
+export default function App () {
   const [images, setImages] = useState([]);
   const [query, setQuery] = useState('');
   const [pages, setPages] = useState(1);
@@ -41,7 +41,7 @@ export const App = () => {
 
         if (!query) {
           return;
-        };
+        }
 
         const initialQuizzes = await fetchImg(query, pages, controllerRef);
         setTotalHits(initialQuizzes.totalHits);
@@ -104,4 +104,4 @@ export const App = () => {
      }
     </Wrapper>
   );
-};
+}

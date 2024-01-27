@@ -18,4 +18,4 @@ export async function fetchImg (searchQuery, pages, controllerRef) {
         per_page: 12,
      }});
     return response.data;
-};
+}

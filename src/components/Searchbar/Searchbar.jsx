@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
-import { ReactComponent as SearchIcon} from '../images/search.svg';
+// import { ReactComponent as SearchIcon } from '../images/search.svg';
+import { FiSearch } from "react-icons/fi";
 import { Header, FormStyles as Form, Button, Input } from './Searchbar-styled';
 
 export const Searchbar = ({ onSubmit }) => {
@@ -8,7 +9,7 @@ export const Searchbar = ({ onSubmit }) => {
           <Header>
             <Form  onSubmit={onSubmit}>
                 <Button type="submit"  >
-                    <SearchIcon width="25" height="25" />
+                    <FiSearch size="25"/>
                 </Button>
                 <Input
                 type="text"

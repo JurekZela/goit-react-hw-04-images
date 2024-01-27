@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
-import { App } from 'components/App';
+import App from "./components/App";
 import { GlobalStyle } from './GlobalStyled';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

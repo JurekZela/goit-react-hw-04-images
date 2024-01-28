@@ -7,12 +7,12 @@ export const ImageGallery = ({ images }) => {
      <Gallery>
       {
         useMemo(() => {
-         return images.map(({id, webformatURL, largeImageURL, tags }) => (
+         return images.map(({id, urls:{ small, regular }, alt_description }) => (
             < ImageGalleryItem
              key={id} 
-             smallImg={webformatURL}
-             largeImageURL={largeImageURL}
-             tags={tags}/>
+             smallImg={small}
+             largeImageURL={regular}
+             tags={alt_description}/>
             ))
         }, [images])
       }

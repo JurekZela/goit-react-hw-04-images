@@ -44,10 +44,10 @@ export default function App () {
         }
 
         const initialQuizzes = await fetchImg(query, pages, controllerRef);
-        setTotalHits(initialQuizzes.totalHits);
+        setTotalHits(initialQuizzes.length);
 
-        initialQuizzes.hits.length ? 
-        setImages(prevImages => pages >= 1 ? [...prevImages, ...initialQuizzes.hits ] : [...initialQuizzes.hits])
+        initialQuizzes.length ? 
+        setImages(prevImages => pages >= 1 ? [...prevImages, ...initialQuizzes ] : [...initialQuizzes])
         : toast.error(`Sorry, but we didn't found any image!`);
   
       } catch(e){

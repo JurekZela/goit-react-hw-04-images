@@ -19,7 +19,7 @@ wrapperClass="rotating-triangels-wrapper"
 export default function App () {
   const [images, setImages] = useState([]);
   const [query, setQuery] = useState('');
-  const [pages, setPages] = useState(1);
+  const [page, setPages] = useState(1);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingMoreImages, setLoadingMoreImages] = useState(false);
@@ -43,11 +43,11 @@ export default function App () {
           return;
         }
 
-        const initialQuizzes = await fetchImg(query, pages, controllerRef);
+        const initialQuizzes = await fetchImg(query, page, controllerRef);
         setTotalHits(initialQuizzes.results.length);
 
         initialQuizzes.results.length ? 
-        setImages(prevImages => pages >= 1 ? [...prevImages, ...initialQuizzes.results ] : [...initialQuizzes.results])
+        setImages(prevImages => page >= 1 ? [...prevImages, ...initialQuizzes.results ] : [...initialQuizzes.results])
         : toast.error(`Sorry, but we didn't found any image!`);
   
       } catch(e){
@@ -67,7 +67,7 @@ export default function App () {
       controllerRef.current.abort();
     }
 
-  }, [query, pages]);
+  }, [query, page]);
 
 
   const handleSubmit = e => {
@@ -100,7 +100,7 @@ export default function App () {
      images.length > 0 && 
      <>
      <ImageGallery images={images}/>
-     {pages < totalHits && <Button loader={loadingMoreImages} onClick={onClickLoadMore}/>}
+     {page < totalHits && <Button loader={loadingMoreImages} onClick={onClickLoadMore}/>}
      </>
      }
     </Wrapper>

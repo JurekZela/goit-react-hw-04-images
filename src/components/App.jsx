@@ -44,16 +44,15 @@ export default function App () {
         }
 
         const initialQuizzes = await fetchImg(query, pages, controllerRef);
-        setTotalHits(initialQuizzes.length);
+        setTotalHits(initialQuizzes.results.length);
 
-        initialQuizzes.length ? 
-        setImages(prevImages => pages >= 1 ? [...prevImages, ...initialQuizzes ] : [...initialQuizzes])
+        initialQuizzes.results.length ? 
+        setImages(prevImages => pages >= 1 ? [...prevImages, ...initialQuizzes.results ] : [...initialQuizzes.results])
         : toast.error(`Sorry, but we didn't found any image!`);
   
       } catch(e){
         if (e.code !== "ERR_CANCELED") {
-          setError(true);
-          console.log(e); 
+          setError(true); 
         }
       }
       finally {
@@ -70,13 +69,6 @@ export default function App () {
 
   }, [query, pages]);
 
-  const searchImages = newQuery => {
-    const currentQuery = `${Date.now()}/${newQuery}`;
-
-    setQuery(currentQuery);
-    setPages(1);
-    setImages([]);
-  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -87,6 +79,15 @@ export default function App () {
 
     e.target.reset();
   };
+
+  const searchImages = newQuery => {
+    const currentQuery = `${Date.now()}/${newQuery}`;
+
+    setQuery(currentQuery);
+    setPages(1);
+    setImages([]);
+  };
+
 
  const onClickLoadMore = () => setPages(prevPages => prevPages + 1);
 
